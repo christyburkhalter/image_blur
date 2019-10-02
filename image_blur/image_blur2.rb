@@ -7,32 +7,38 @@ class Image
 
     def get_ones
       ones = []
-      image.each_with_index do |num, row_index|
+      @image.each_with_index do |num, row_index|
         num.each_with_index do |item, column_index|
-          if item == 1
-            ones << [row_index, column_index]
+            ones << [row_index, column_index] if item == 1
           end
         end
       end
 
-      def blur
+      def blur(d)
         number_of_rows = image.length
         number_of_columns = image[0].length
         get_ones.each do |coord|
-          image[coord[0]][coord[1] + 1] = 1 unless coord[1]+1 > number_of_columns
-          image[coord[0]][coord[1] - 1] = 1 unless coord[1] == 0
-          image[coord[0] + 1][coord[1]] = 1 unless coord[0] + 1 > number_of_rows
-          image[coord[0] - 1][coord[1]] = 1 unless corrd[0] == 0
+          @image[coord[0]][coord[1] + 1] = 1 unless coord[1]+1 > number_of_columns
+          @image[coord[0]][coord[1] - 1] = 1 unless coord[1] == 0
+          @image[coord[0] + 1][coord[1]] = 1 unless coord[0] + 1 > number_of_rows
+          @image[coord[0] - 1][coord[1]] = 1 unless coord[0] == 0
         end
+      end
     end
-end
+
+    def output_image
+      @image.each do |row|
+        puts row.join
+      end
+    end 
 
 
 image = Image.new [
-  [0,0,1,0],
-  [0,1,0,0],
-  [0,0,0,1],
-  [0,1,0,0]
+  [0,0,1,0,0,0,0,0],
+  [0,1,0,0,0,0,0,0],
+  [0,0,0,1,0,0,0,0],
+  [0,1,0,0,0,0,0,0]
 ]
 
-image.blur
+image.blur(2)
+image.output_image
